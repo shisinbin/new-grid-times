@@ -21,6 +21,15 @@ const Wrapper = styled.article`
   gap: 4px 16px;
   grid-template-columns: 120px 1fr;
   color: var(--color-gray-900);
+
+  @media ${(p) => p.theme.queries.tabletOnly} {
+    grid-template-areas:
+      'image'
+      'heading'
+      'abstract';
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
 `;
 
 const Image = styled.img`
@@ -39,6 +48,11 @@ const Heading = styled.h2`
   line-height: 1.3;
   /* Optical alignment */
   margin-top: -2px;
+
+  @media ${(p) => p.theme.queries.tabletOnly} {
+    /* need to shift down 8px, so -2 + 8 = 6 */
+    margin-top: 6px;
+  }
 `;
 
 // const AbstractWrapper = styled.div`

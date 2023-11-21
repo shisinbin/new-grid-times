@@ -45,6 +45,9 @@ const Abstract = styled.p`
   margin-bottom: 1em;
   white-space: pre-wrap;
 
+  overflow-wrap: break-word;
+  hyphens: auto;
+
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 8;

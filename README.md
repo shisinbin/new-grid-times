@@ -195,7 +195,8 @@ https://courses.joshwcomeau.com/css-for-js/07-css-grid/19-workshop-solution
 
 ### Exercise 1
 
-**Centering a middle element in a header.**
+#### Centering a middle element in a header
+
 In the Sole & Ankle workshop this was done using Flexbox, where the two outer elements were set to `flex: 1`, so that they both grew an equal amount from the sides, and effectively squeezed the middle element into the centre.
 
 Here, we used CSS Grid to do something very similar. The way this is done using Grid is to set the column widths in this way:
@@ -315,11 +316,6 @@ const StoryList = styled.div`
     padding-bottom: var(--spacing);
     border-bottom: 1px solid var(--color-gray-300);
     margin-bottom: var(--spacing);
-
-    @media ${(p) => p.theme.queries.tabletAndUp} {
-      padding-bottom: calc(var(--spacing) * 2);
-      margin-bottom: calc(var(--spacing) * 2);
-    }
   }
 `;
 ```
@@ -344,11 +340,22 @@ const VerticalStoryWrapper = styled.div`
     padding-bottom: var(--spacing);
     border-bottom: 1px solid var(--color-gray-300);
     margin-bottom: var(--spacing);
-
-    @media ${(p) => p.theme.queries.tabletAndUp} {
-      padding-bottom: calc(var(--spacing) * 2);
-      margin-bottom: calc(var(--spacing) * 2);
-    }
   }
 `;
 ```
+
+### Exercise 3
+
+This was where the main grid area stuff was done.
+
+The only real thing worth mentioning is that on the wide desktop layout, the columns were set to:
+
+```
+grid-template-columns: 5fr 4fr 3fr;
+```
+
+This had the ideal ratio of column widths corresponding to the type of content. `3fr 2fr 1fr` would have been too much of a difference between columns, while something like `8fr 7fr 6fr` would be too little. It's a small note, but it made a lot of sense given the layout of main story - secondary stories - opinion stories.
+
+![Screenshot of the grid columns on desktop](/docs/desktop_column_widths.png)
+
+Also notice how the `gap`'s have gone on desktop. Instead we have these sneaky borders giving the illusion of their being a gap.
