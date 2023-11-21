@@ -5,11 +5,11 @@ const OpinionStory = ({ id, title, author, avatar }) => {
   return (
     <a href={`/story/${id}`}>
       <Wrapper>
-        <Avatar alt="" src={avatar} />
-        <div>
+        <Avatar alt='' src={avatar} />
+        <AuthorWrapper>
           <AuthorName>{author}</AuthorName>
           <ArticleTitle>{title}</ArticleTitle>
-        </div>
+        </AuthorWrapper>
       </Wrapper>
     </a>
   );
@@ -17,6 +17,15 @@ const OpinionStory = ({ id, title, author, avatar }) => {
 
 const Wrapper = styled.article`
   color: var(--color-gray-900);
+  display: flex;
+  flex-direction: row-reverse;
+
+  @media ${(p) => p.theme.queries.tabletAndUp} {
+    flex-direction: column;
+  }
+  @media ${(p) => p.theme.queries.laptopAndUp} {
+    flex-direction: row-reverse;
+  }
 `;
 
 const Avatar = styled.img`
@@ -25,6 +34,19 @@ const Avatar = styled.img`
   height: 48px;
   border-radius: 50%;
   object-fit: cover;
+  margin-bottom: 8px;
+  margin-left: 16px;
+
+  @media ${(p) => p.theme.queries.tabletAndUp} {
+    margin-left: revert;
+  }
+  @media ${(p) => p.theme.queries.laptopAndUp} {
+    margin-left: 16px;
+  }
+`;
+
+const AuthorWrapper = styled.div`
+  flex: 1;
 `;
 
 const AuthorName = styled.p`

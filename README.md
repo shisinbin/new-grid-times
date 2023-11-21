@@ -195,7 +195,8 @@ https://courses.joshwcomeau.com/css-for-js/07-css-grid/19-workshop-solution
 
 ### Exercise 1
 
-Centering a middle element in a header. In the Sole & Ankle workshop this was done using Flexbox, where the two outer elements were set to `flex: 1`, so that they both grew an equal amount from the sides, and effectively squeezed the middle element into the centre.
+**Centering a middle element in a header.**
+In the Sole & Ankle workshop this was done using Flexbox, where the two outer elements were set to `flex: 1`, so that they both grew an equal amount from the sides, and effectively squeezed the middle element into the centre.
 
 Here, we used CSS Grid to do something very similar. The way this is done using Grid is to set the column widths in this way:
 
@@ -239,3 +240,115 @@ margin-top: 8px;
 ```
 
 ### Exercise 2
+
+#### Text truncation
+
+So to clamp the number of lines that get shown and show an ellipsis at the end we just lump in this snippet:
+
+```
+display: -webkit-box;
+-webkit-box-orient: vertical;
+-webkit-line-clamp: 4;
+overflow: hidden;
+```
+
+However, there occasionally can be this weird behaviour where the very top of the overflow that should be hidden peeks through:
+
+![Screenshot of overflow text showing in a weird, clipped off way](/docs/algos_at_war.png)
+
+Reason: conflicting height calculating algorithms between what the line clamping snippet does above and what grid does to stretch the content (I think the default is `align-items: stretch;`).
+
+Solution 1: Wrap the paragraph box in a wrapper and have that be the child element of the grid container instead:
+
+```
+<AbstractWrapper>
+  <Abstract>...</Abstract>
+</AbstractWrapper>
+
+const AbstractWrapper = styled.div`
+  grid-area: abstract;
+`;
+```
+
+Solution 2: Stop the stretchy thing grid does by using `align-self: start;` on the paragprah box:
+
+```
+const Abstract = styled.p`
+  grid-area: abstract;
+  align-self: start;
+`;
+```
+
+#### Story borders
+
+Here, we want to apply borders between each story:
+
+![Screenshot of the borders wanted between each story](/docs/story_border.png)
+
+We require `16px` of space between the story and the border. The structure of this section of the page is like this:
+
+```
+<StoryList>
+  {SECONDARY_STORIES.map((story, index) => (
+    <SecondaryStory key={story.id} {...story} />
+  ))}
+</StoryList>
+```
+
+So, the general solution is, for each story except the last, to apply:
+
+```
+padding-bottom: 16px;
+border-bottom: 1px solid var(--color-gray-300);
+margin-bottom: 16px;
+```
+
+Initially this CSS was put into the `<StoryList>` component like this:
+
+```
+const StoryList = styled.div`
+  display: flex;
+  flex-direction: column;
+  --spacing: 8px;
+
+  & > :not(:last-child) {
+    padding-bottom: var(--spacing);
+    border-bottom: 1px solid var(--color-gray-300);
+    margin-bottom: var(--spacing);
+
+    @media ${(p) => p.theme.queries.tabletAndUp} {
+      padding-bottom: calc(var(--spacing) * 2);
+      margin-bottom: calc(var(--spacing) * 2);
+    }
+  }
+`;
+```
+
+However, this isn't the best approach because we are **applying styles to a different component**. The reason we are doing this is because we don't want to apply the styles inside of `<SecondaryStory>` because we might want to use that component in a different setting.
+
+The best approach then is to create a new wrapper styled component `<VerticalStoryWrapper>` that presents stories in this way.
+
+```
+<StoryList>
+  {SECONDARY_STORIES.map((story, index) => (
+    <VerticalStoryWrapper key={story.id}>
+      <SecondaryStory {...story} />
+    </VerticalStoryWrapper>
+  ))}
+</StoryList>
+
+const VerticalStoryWrapper = styled.div`
+  --spacing: 8px;
+
+  &:not(:last-of-type) {
+    padding-bottom: var(--spacing);
+    border-bottom: 1px solid var(--color-gray-300);
+    margin-bottom: var(--spacing);
+
+    @media ${(p) => p.theme.queries.tabletAndUp} {
+      padding-bottom: calc(var(--spacing) * 2);
+      margin-bottom: calc(var(--spacing) * 2);
+    }
+  }
+`;
+```

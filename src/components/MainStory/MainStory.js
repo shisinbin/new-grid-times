@@ -18,7 +18,7 @@ const MainStory = ({
       <Abstract>
         <Location>{location}</Location> — {abstract}
       </Abstract>
-      <ReadMore href="/story">Continue Reading…</ReadMore>
+      <ReadMore href='/story'>Continue Reading…</ReadMore>
     </Wrapper>
   );
 };
@@ -44,6 +44,20 @@ const Abstract = styled.p`
   font-size: 1rem;
   margin-bottom: 1em;
   white-space: pre-wrap;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 8;
+  /* necessary for line clamping */
+  overflow: hidden;
+
+  @media ${(p) => p.theme.queries.tabletAndUp} {
+    -webkit-line-clamp: 16;
+  }
+
+  @media ${(p) => p.theme.queries.laptopAndUp} {
+    -webkit-line-clamp: 10;
+  }
 `;
 
 const Location = styled.span`
