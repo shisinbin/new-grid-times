@@ -190,3 +190,52 @@ Finally, we want the columns on desktop to be equally-spaced:
 
 View the solution on the course platform:
 https://courses.joshwcomeau.com/css-for-js/07-css-grid/19-workshop-solution
+
+## Note to self
+
+### Exercise 1
+
+Centering a middle element in a header. In the Sole & Ankle workshop this was done using Flexbox, where the two outer elements were set to `flex: 1`, so that they both grew an equal amount from the sides, and effectively squeezed the middle element into the centre.
+
+Here, we used CSS Grid to do something very similar. The way this is done using Grid is to set the column widths in this way:
+
+```
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+```
+
+By using `auto` we are saying we want the middle column to be as small as that element's intrinsic size, but the other columns with `1fr` for their width should greedily consume an equal amount of space between them.
+
+![Screenshot of the grid lines in the header](/docs/header_grid.png)
+
+We also have to justify the items (child elements of the grid) relative to their column. So on the grid container we can do:
+
+```
+justify-items: start;
+```
+
+That makes the group of buttons (menu and search) to be positioned on the left side of their column. But we need to change the behaviour of the 'SUBSCRIBE' button so that it is positioned at the right of its column, and we do that with this:
+
+```
+justify-self: end;
+```
+
+Another small detail is that we wanted to align the three elements in the centre so that if you drew a line across you'd see the main buttons line up:
+
+![Screenshot of the button alignment in the header](/docs/header_alignment.png)
+
+So, we can have centre alignment by applying the following in the grid container rule:
+
+```
+align-items: center;
+```
+
+But the `Already a subscriber?` link causes an issue with this alignment. So, the solution here is to give it absolute positioning. If we do this and don't use `top`, etc, and make the subscribe wrapper relative positioned, then the link just naturally sits below the button, and only small tweaks are needed to move it around:
+
+```
+width: 100%;
+text-align: center;
+margin-top: 8px;
+```
+
+### Exercise 2

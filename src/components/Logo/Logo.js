@@ -5,7 +5,7 @@ import format from 'date-fns/format';
 const Logo = (props) => {
   return (
     <Wrapper>
-      <Link href="/" {...props}>
+      <Link href='/' {...props}>
         New Grid Times
       </Link>
       <TodaysDate>
@@ -22,6 +22,10 @@ const Wrapper = styled.div`
 const Link = styled.a`
   font-family: var(--font-family-logo);
   font-size: 3rem;
+
+  @media ${(p) => p.theme.queries.tabletAndUp} {
+    font-size: ${64 / 16}rem;
+  }
 `;
 
 const TodaysDate = styled.p`
