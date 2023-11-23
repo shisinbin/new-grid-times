@@ -422,12 +422,14 @@ grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 
 For smaller viewports this is fine, but on larger ones, the behaviour of `auto-fill` is to create a new column if there is enough space for it, regardless of whether there is content to put into it or not. So, on a viewport that is large enough, we get a 5th column of 'dead space':
 
-![Screenshot of overflowing element causing grid malfunction](/docs/auto-fill.png)
+![Screenshot of empty 5th column on grid with auto-fill](/docs/auto-fill.png)
 
 The solution is to instead use `auto-fit`, which works like `auto-fill`, except it looks at the content and will grow/shrink the columns appropriately so that the grid has evenly spaced children:
 
 ```
 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 ```
+
+![Screenshot of grid using auto-fit](/docs/auto-fit.png)
 
 Why use `auto-fill` over `auto-fit` at all then? Well, maybe you don't want your child elements to stretch over huge ranges, and instead only want them to distort within a more acceptable range.
