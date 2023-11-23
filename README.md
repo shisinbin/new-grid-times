@@ -414,13 +414,13 @@ Another thing worth mentioning. For some reason, the scrollbar didn't show up, m
 
 #### Footer
 
-Main point of note is how `auto-fit` was used instead of `auto-fill` in the 'world class grid snippet'. So, if we use this declaration on the grid for our main nav links, which tries to set an appropriate number of columns:
+Main point of note was how we amended the 'world class grid snippet' to use `auto-fit` instead of `auto-fill`. For the grid containing 4 groups of nav links we initially use:
 
 ```
 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 ```
 
-Then for smaller viewports this is fine, but on larger ones, the behaviour of `auto-fill` is to create a new column if there's enough space for it, regardless if there is content to put into it. So, on a viewport thaty is large enough, we get a 5th column of dead space:
+For smaller viewports this is fine, but on larger ones, the behaviour of `auto-fill` is to create a new column if there is enough space for it, regardless of whether there is content to put into it or not. So, on a viewport that is large enough, we get a 5th column of 'dead space':
 
 ![Screenshot of overflowing element causing grid malfunction](/docs/auto-fill.png)
 
@@ -430,4 +430,4 @@ The solution is to instead use `auto-fit`, which works like `auto-fill`, except 
 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 ```
 
-Why use `auto-fill` over `auto-fit`? Well, maybe you don't want your child elements to stretch over huge ranges, and instead only want them to distort within a more acceptable range.
+Why use `auto-fill` over `auto-fit` at all then? Well, maybe you don't want your child elements to stretch over huge ranges, and instead only want them to distort within a more acceptable range.
