@@ -382,11 +382,11 @@ and nary a media query in sight.
 
 #### Getting that overflow goodness
 
-On tablets and above, we want the sports stories to overflow on the same row. So the solution is to set it to `display: flex;` and give each story a `min-width: 220px`. This creates both an overflow, which messes with our grid:
+On tablets and above, we want the sports stories to overflow on the same row. The solution involves switching to a flex container and giving each story a mininum width. This creates an overflow, which messes with the outer grid containing both the sports stories and the market info:
 
 ![Screenshot of overflowing element causing grid malfunction](/docs/grid_weirdness.png)
 
-The reason for the above is that by default, the width of the grid column is `auto`, and it will try to fit the width of its child elements as best as it can. The solution then is to add this to the grid container:
+The reason for this is that by default, the width of the grid column is set to `auto`, and so the algorithm will try to fit the width of its child elements as best as it can. The solution is then to change this `auto` behaviour on the column:
 
 ```
 grid-template-columns: minmax(0px, auto);
@@ -394,7 +394,7 @@ grid-template-columns: minmax(0px, auto);
 
 This says that we want one column, but it doesn't have to be as wide as it needs to fit the child element that is causing an overflow (alternatively could set it to `100%`).
 
-That solves that. Then to contain the overflow, we need to set the flex container `overflow: auto;`.
+That resolves the grid weirdness, and so to contain the overflow, we need to add `overflow: auto;` to the flex container.
 
 Another thing worth mentioning. For some reason, the scrollbar didn't show up, maybe because of my system settings. So, I added some custom styles to make the scroll bar show up regardless of user settings.
 
@@ -409,3 +409,25 @@ Another thing worth mentioning. For some reason, the scrollbar didn't show up, m
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 ```
+
+### Exercise 4
+
+#### Footer
+
+Main point of note is how `auto-fit` was used instead of `auto-fill` in the 'world class grid snippet'. So, if we use this declaration on the grid for our main nav links, which tries to set an appropriate number of columns:
+
+```
+grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+```
+
+Then for smaller viewports this is fine, but on larger ones, the behaviour of `auto-fill` is to create a new column if there's enough space for it, regardless if there is content to put into it. So, on a viewport thaty is large enough, we get a 5th column of dead space:
+
+![Screenshot of overflowing element causing grid malfunction](/docs/auto-fill.png)
+
+The solution is to instead use `auto-fit`, which works like `auto-fill`, except it looks at the content and will grow/shrink the columns appropriately so that the grid has evenly spaced children:
+
+```
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+```
+
+Why use `auto-fill` over `auto-fit`? Well, maybe you don't want your child elements to stretch over huge ranges, and instead only want them to distort within a more acceptable range.
