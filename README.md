@@ -396,7 +396,9 @@ This says that we want one column, but it doesn't have to be as wide as it needs
 
 That resolves the grid weirdness, and so to contain the overflow, we need to add `overflow: auto;` to the flex container.
 
-Another thing worth mentioning. For some reason, the scrollbar didn't show up, maybe because of my system settings. So, I added some custom styles to make the scroll bar show up regardless of user settings.
+#### Weird scroll bar behaviour
+
+Using Chrome's dev tools responsive view thing, I couldn't see the scroll bar for the sports stories. Initially I thought it might be something with my computer settings, but nonetheless I found this snippet to use that always shows a scroll bar if there is overflow:
 
 ```
 &::-webkit-scrollbar {
@@ -409,6 +411,8 @@ Another thing worth mentioning. For some reason, the scrollbar didn't show up, m
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 ```
+
+Later I realised it must be a responsive view thing. So people on mobile devices don't normally see a scroll bar? And I suppose we'd need to create a gradient thing to put on the end of the container to give the impression that it was scrollable to users.
 
 ### Exercise 4
 
